@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fila da Bolacha</title>
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --massa: #fbf3e4;    
+      --acucar: #fffdf8;    
+      --biscoito: #e0a24e;      
+      --biscoito-borda: #c07f30; 
+      --chocolate: #43291a;      
+      --chocolate-claro: #8a6a52;
+      --sombra: rgba(67, 41, 26, 0.15); 
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--massa);
+      color: var(--chocolate);
+      line-height: 1.6;
+      background-image: radial-gradient(var(--biscoito-borda) 0.5px, transparent 0.5px);
+      background-size: 22px 22px;
+      background-position: -11px -11px;
+      background-attachment: fixed;
+    }
+
+    .pagina {
+      max-width: 620px;
+      margin: 0 auto;         
+      padding: 48px 20px 32px;
+    }
+
+    .topo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .topo__emoji {
+      font-size: 56px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .topo h1 {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      letter-spacing: -0.5px;
+    }
+
+    .topo__subtitulo {
+      color: var(--chocolate-claro);
+      font-size: 18px;
+      margin-top: 6px;
+    }
+
+    .destaque {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .destaque__rotulo {
+      font-size: 17px;
+      color: var(--chocolate-claro);
+      margin-bottom: 18px;
+    }
+
+    .bolacha {
+      width: 290px;
+      height: 100px;
+      margin: 0 auto;                
+      border-radius: 10px ;            
+
+      background: radial-gradient(circle at 50% 40%, #eab766, var(--biscoito) 60%, var(--biscoito-borda));
+
+      border: 3px solid var(--biscoito-borda);
+      box-shadow: 0 12px 24px var(--sombra), inset 0 -8px 16px rgba(192, 127, 48, 0.35);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: surgir 0.6s ease-out;
+    }
+
+    .bolacha__nome {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 30px;
+      color: var(--chocolate);
+      padding: 0 16px;
+    }
+
+    .fila-secao {
+      background: var(--acucar);
+      border-radius: 20px;
+      padding: 28px 28px 12px;
+      box-shadow: 0 8px 20px var(--sombra);
+      margin-bottom: 28px;
+    }
+
+    .fila-secao h2,
+    .info h2 {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .fila {
+      list-style: none;     
+      counter-reset: contador;       
+    }
+
+    .fila li {
+      counter-increment: contador;   
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 8px;
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 1px solid #f0e6d4;
+    }
+
+    .fila li:last-child {
+      border-bottom: none;
+    }
+
+    .fila li::before {
+      content: counter(contador);  
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      background: var(--massa);
+      color: var(--chocolate-claro);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .fila li.ativo {
+      background: #fdf1dd;
+      border-radius: 12px;
+      margin: 4px -8px;
+      padding: 12px 16px;
+      color: var(--chocolate);
+    }
+
+    .fila li.ativo::before {
+      background: var(--biscoito);
+      color: var(--acucar);
+    }
+
+    /* 🍪  */
+    .fila li.ativo::after {
+      content: "ESTA SEMANA";
+      margin-left: auto;     
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--biscoito-borda);
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    @keyframes surgir {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topo h1 { font-size: 34px; }
+      .bolacha { width: 180px; height: 180px; }
+      .bolacha__nome { font-size: 25px; }
+      .fila li.ativo::after { display: none; } 
+    }
+  </style>
+</head>
+
+<body>
+  <main class="pagina">
+
+    <header class="topo">
+      <span class="topo__emoji">🍪</span>
+      <h1>Fila da Bolacha</h1>
+      <p class="topo__subtitulo">A escala semanal de quem traz o lanche pra equipe.</p>
+    </header>
+
+    <section class="destaque">
+      <p class="destaque__rotulo">Esta semana, quem traz a bolacha é:</p>
+      <div class="bolacha">
+        <span class="bolacha__nome" id="pessoa-da-vez">—</span>
+      </div>
+    </section>
+
+    <section class="fila-secao">
+      <h2>A ordem da fila</h2>
+      <ol class="fila" id="fila">
+        <li>Natanael</li>
+        <li>Heitor</li>
+        <li>João Vitor</li>
+        <li>Marco Antônio</li>
+        <li>Nathan</li>
+        <li>Rubens</li>
+      </ol>
+    </section>
+
+  </main>
+    <script>
+      const nomes = document.querySelectorAll("#fila li");
+
+      const hoje = new Date();                     
+      const primeiroDiaDoAno = new Date(hoje.getFullYear(), 0, 1); 
+      const umDia = 1000 * 60 * 60 * 24;                    
+      const diasPassados = Math.floor((hoje - primeiroDiaDoAno) / umDia);
+      const semanaAtual = Math.floor(diasPassados / 7);      
+
+      const posicaoDaVez = semanaAtual % nomes.length;
+
+      const pessoaDaVez = nomes[posicaoDaVez];      
+      pessoaDaVez.classList.add("ativo");           
+      document.getElementById("pessoa-da-vez").textContent = pessoaDaVez.textContent; 
+    </script>
+
+</body>
+</html>
