@@ -231,24 +231,24 @@
     <script>
       const nomes = document.querySelectorAll("#fila li");
 
+const domingoInicial = new Date(2026, 7, 2); 
+
+
 const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
+hoje.setHours(0, 0, 0, 0);
 
 const domingoAtual = new Date(hoje);
-  domingoAtual.setDate(hoje.getDate() - hoje.getDay());
+domingoAtual.setDate(hoje.getDate() - hoje.getDay());
 
-const primeiroDiaDoAno = new Date(hoje.getFullYear(), 0, 1);
-const primeiroDomingoDoAno = new Date(primeiroDiaDoAno);
-  primeiroDomingoDoAno.setDate(primeiroDiaDoAno.getDate() - primeiroDiaDoAno.getDay());
+const umaSemana = 1000 * 60 * 60 * 24 * 7;
+const semanasPassadas = Math.round((domingoAtual - domingoInicial) / umaSemana);
 
-const umDia = 1000 * 60 * 60 * 24;
-const semanaAtual = Math.round((domingoAtual - primeiroDomingoDoAno) / (umDia * 7));
-
-const posicaoDaVez = semanaAtual % nomes.length;
+const posicaoDaVez = ((semanasPassadas % nomes.length) + nomes.length) % nomes.length;
 
 const pessoaDaVez = nomes[posicaoDaVez];
-  pessoaDaVez.classList.add("ativo");
-  document.getElementById("pessoa-da-vez").textContent = pessoaDaVez.textContent;
+pessoaDaVez.classList.add("ativo");
+document.getElementById("pessoa-da-vez").textContent = pessoaDaVez.textContent;
+
     </script>
 
 </body>
