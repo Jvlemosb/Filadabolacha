@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fila da Bolacha</title>
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --massa: #fbf3e4;    
+      --acucar: #fffdf8;    
+      --biscoito: #e0a24e;      
+      --biscoito-borda: #c07f30; 
+      --chocolate: #43291a;      
+      --chocolate-claro: #8a6a52;
+      --sombra: rgba(67, 41, 26, 0.15); 
+      --sucesso: #6b8f4f;
+      --sucesso-borda: #557a3d;
+      --sucesso-clara: #f6e9c4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--massa);
+      color: var(--chocolate);
+      line-height: 1.6;
+      background-image: radial-gradient(var(--biscoito-borda) 0.5px, transparent 0.5px);
+      background-size: 22px 22px;
+      background-position: -11px -11px;
+      background-attachment: fixed;
+    }
+
+    .pagina {
+      max-width: 620px;
+      margin: 0 auto;         
+      padding: 48px 20px 32px;
+    }
+
+    .topo {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .topo__emoji {
+      font-size: 56px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .topo h1 {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      letter-spacing: -0.5px;
+    }
+
+    .topo__subtitulo {
+      color: var(--chocolate-claro);
+      font-size: 18px;
+      margin-top: 6px;
+    }
+
+    .destaque {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .destaque__rotulo {
+      font-size: 17px;
+      color: var(--chocolate-claro);
+      margin-bottom: 18px;
+    }
+
+    .bolacha {
+      width: 290px;
+      height: 100px;
+      margin: 0 auto;                
+      border-radius: 10px ;            
+
+      background: radial-gradient(circle at 50% 40%, #eab766, var(--biscoito) 60%, var(--biscoito-borda));
+
+      border: 3px solid var(--biscoito-borda);
+      box-shadow: 0 12px 24px var(--sombra), inset 0 -8px 16px rgba(192, 127, 48, 0.35);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: surgir 0.6s ease-out;
+    }
+
+    .bolacha__nome {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 30px;
+      color: var(--chocolate);
+      padding: 0 16px;
+    }
+
+    .semana-label {
+      font-size: 14px;
+      color: var(--biscoito-borda);
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    .acoes {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-family: 'Nunito', 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .btn-trouxe {
+      background: var(--sucesso);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(107, 143, 79, 0.35);
+    }
+
+    .btn-trouxe:hover:not(:disabled) {
+      background: var(--sucesso-borda);
+    }
+
+    .btn-trouxe.entregue {
+      background: var(--sucesso-clara);
+      color: var(--chocolate-claro);
+      box-shadow: none;
+    }
+
+    .btn-pular {
+      background: var(--acucar);
+      color: var(--chocolate);
+      border: 2px solid var(--chocolate);
+    }
+
+    .btn-pular:hover:not(:disabled) {
+      background: var(--massa);
+    }
+
+    .mensagem-sucesso {
+      text-align: center;
+      color: var(--sucesso-borda);
+      font-weight: 700;
+      margin-top: 14px;
+      font-size: 15px;
+    }
+
+    .adicionar-secao {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .adicionar-secao input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 2px solid var(--massa);
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      color: var(--chocolate);
+      outline: none;
+    }
+
+    .adicionar-secao input:focus {
+      border-color: var(--biscoito-borda);
+    }
+
+    .adicionar-secao button {
+      background: var(--biscoito);
+      color: #fff;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      white-space: nowrap;
+    }
+
+    .adicionar-secao button:hover {
+      background: var(--biscoito-borda);
+    }
+
+    .fila-secao {
+      background: var(--acucar);
+      border-radius: 20px;
+      padding: 28px 28px 12px;
+      box-shadow: 0 8px 20px var(--sombra);
+      margin-bottom: 28px;
+    }
+
+    .fila-secao h2,
+    .info h2 {
+      font-family: 'Fredoka', 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .fila {
+      list-style: none;     
+      counter-reset: contador;       
+    }
+
+    .fila li {
+      counter-increment: contador;   
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 8px;
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 1px solid #f0e6d4;
+    }
+
+    .fila li:last-child {
+      border-bottom: none;
+    }
+
+    .fila li::before {
+      content: counter(contador);  
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      background: var(--massa);
+      color: var(--chocolate-claro);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .fila li.ativo {
+      background: #fdf1dd;
+      border-radius: 12px;
+      margin: 4px -8px;
+      padding: 12px 16px;
+      color: var(--chocolate);
+    }
+
+    .fila li.ativo::before {
+      background: var(--biscoito);
+      color: var(--acucar);
+    }
+
+    /* 🍪  */
+    .fila li.ativo::after {
+      content: "ESTA SEMANA";
+      margin-left: auto;     
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--biscoito-borda);
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .topo h1 { font-size: 34px; }
+      .bolacha { width: 180px; height: 180px; }
+      .bolacha__nome { font-size: 25px; }
+      .fila li.ativo::after { display: none; } 
+      .acoes { flex-direction: column; align-items: center; }
+      .adicionar-secao { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="pagina">
+
+    <header class="topo">
+      <span class="topo__emoji">🍪</span>
+      <h1>Fila da Bolacha</h1>
+      <p class="topo__subtitulo">A Ordem de quem traz a bolacha a cada semana.</p>
+    </header>
+
+    <section class="destaque">
+      <p class="destaque__rotulo">Esta semana, quem traz a bolacha é:</p>
+      <div class="bolacha">
+        <span class="bolacha__nome" id="pessoa-da-vez">—</span>
+      </div>
+      <p class="semana-label" id="semana-label"></p>
+      <div class="acoes">
+        <button type="button" class="btn btn-trouxe" id="btn-trouxe" onclick="marcarEntregue()">✓ Já trouxe!</button>
+        <button type="button" class="btn btn-pular" id="btn-pular" onclick="pularVez()">⇄ Pular a vez</button>
+      </div>
+      <p class="mensagem-sucesso" id="mensagem-sucesso" style="display: none;"></p>
+    </section>
+
+    <section class="fila-secao">
+      <h2>A ordem da fila</h2>
+      <ol class="fila" id="fila">
+        <li>Rubens</li>
+        <li>Nathanael</li>
+        <li>Heitor</li>
+        <li>João Vitor</li>
+        <li>Marco Antônio</li>
+        <li>Natan</li>
+      </ol>
+
+      <div class="adicionar-secao">
+        <input type="text" id="novo-colega" placeholder="Nome do colega novo...">
+        <button type="button" onclick="adicionarColega()">+ Adicionar</button>
+      </div>
+    </section>
+
+  </main>
+    <script>
+      const API_URL = "https://joaovitor-secti.workers.dev";
+
+      const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
+                     "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+      function formatarSemana() {
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+        const domingo = new Date(hoje);
+        domingo.setDate(hoje.getDate() - hoje.getDay());
+        const quinta = new Date(domingo);
+        quinta.setDate(domingo.getDate() + 4);
+        const mesNome = MESES[quinta.getMonth()];
+        return `semana de ${domingo.getDate()} a ${quinta.getDate()} de ${mesNome}`;
+      }
+
+      function definirCarregando(carregando) {
+        document.getElementById("btn-trouxe").disabled = carregando;
+        document.getElementById("btn-pular").disabled = carregando;
+      }
+      function renderizarFila(fila) {
+        const pessoa = fila.length ? fila[0].nome : "—";
+        document.getElementById("pessoa-da-vez").textContent = pessoa;
+        document.getElementById("semana-label").textContent = formatarSemana();
+
+        const lista = document.getElementById("fila");
+        lista.innerHTML = "";
+        fila.forEach((membro, indice) => {
+          const li = document.createElement("li");
+          li.textContent = membro.nome;
+          if (indice === 0) li.classList.add("ativo"); 
+          lista.appendChild(li);
+        });
+      }
+
+      function mostrarMensagem(texto) {
+        const mensagem = document.getElementById("mensagem-sucesso");
+        mensagem.textContent = texto;
+        mensagem.style.display = "block";
+        clearTimeout(mostrarMensagem._timer);
+        mostrarMensagem._timer = setTimeout(() => {
+          mensagem.style.display = "none";
+        }, 4000);
+      }
+
+      async function carregarFila() {
+        definirCarregando(true);
+        try {
+          const resposta = await fetch(`${API_URL}/api/fila`);
+          const fila = await resposta.json();
+          renderizarFila(fila);
+        } catch (erro) {
+          document.getElementById("pessoa-da-vez").textContent = "erro :(";
+          console.error("Não foi possível carregar a fila:", erro);
+        } finally {
+          definirCarregando(false);
+        }
+      }
+      async function marcarEntregue() {
+        definirCarregando(true);
+        try {
+          const resposta = await fetch(`${API_URL}/api/confirmar`, { method: "POST" });
+          const dados = await resposta.json();
+          renderizarFila(dados.fila);
+          mostrarMensagem(`Missão cumprida, ${dados.pessoaAnterior}! 🍪`);
+        } catch (erro) {
+          console.error("Não foi possível confirmar a entrega:", erro);
+        } finally {
+          definirCarregando(false);
+        }
+      }
+      async function pularVez() {
+        definirCarregando(true);
+        try {
+          const resposta = await fetch(`${API_URL}/api/pular`, { method: "POST" });
+          const dados = await resposta.json();
+          renderizarFila(dados.fila);
+          mostrarMensagem(`${dados.pessoaAnterior} pulou a vez!`);
+        } catch (erro) {
+          console.error("Não foi possível pular a vez:", erro);
+        } finally {
+          definirCarregando(false);
+        }
+      }
+      async function adicionarColega() {
+        const input = document.getElementById("novo-colega");
+        const nome = input.value.trim();
+        if (!nome) return;
+
+        try {
+          const resposta = await fetch(`${API_URL}/api/adicionar`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nome }),
+          });
+          const dados = await resposta.json();
+          renderizarFila(dados.fila);
+          input.value = "";
+        } catch (erro) {
+          console.error("Não foi possível adicionar o colega:", erro);
+        }
+      }
+      document.getElementById("novo-colega").addEventListener("keydown", (evento) => {
+        if (evento.key === "Enter") adicionarColega();
+      });
+
+      carregarFila();
+    </script>
+
+</body>
+</html>

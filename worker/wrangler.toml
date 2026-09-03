@@ -1,0 +1,8 @@
+name = "fila-da-bolacha-api"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fila_bolacha_db"
+database_id = "4a647a16-f9b3-44de-baf9-a5cdac7f47df"
