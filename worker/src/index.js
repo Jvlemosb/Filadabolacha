@@ -34,8 +34,6 @@ export default {
         const fila = await buscarFila(env.DB);
         return jsonResponse({ pessoaAnterior, fila }, corsHeaders);
       }
-
-      // POST /api/adicionar -> adiciona um novo colega no final da fila
       if (url.pathname === "/api/adicionar" && request.method === "POST") {
         const corpo = await request.json();
         const nome = (corpo.nome || "").trim();
@@ -65,15 +63,12 @@ export default {
   },
 };
 
-// Busca a fila inteira, ordenada (o primeiro da lista é sempre "a vez")
 async function buscarFila(db) {
   const { results } = await db
     .prepare("SELECT id, nome FROM membros ORDER BY ordem ASC")
     .all();
   return results;
 }
-
-// Pega quem está na frente da fila e manda pro final (nova maior ordem + 1)
 async function moverParaFinal(db) {
   const frente = await db
     .prepare("SELECT id, nome FROM membros ORDER BY ordem ASC LIMIT 1")
