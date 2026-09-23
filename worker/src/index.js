@@ -2,33 +2,27 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Cabeçalhos de CORS: permitem que o site (em outro domínio) chame essa API
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
-
-    // O navegador manda uma requisição OPTIONS antes do POST, para checar o CORS
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders });
     }
 
     try {
-      // GET /api/fila -> devolve a fila inteira, ordenada
       if (url.pathname === "/api/fila" && request.method === "GET") {
         const fila = await buscarFila(env.DB);
         return jsonResponse(fila, corsHeaders);
       }
 
-      // POST /api/confirmar -> quem está na frente entregou a bolacha e vai pro final
       if (url.pathname === "/api/confirmar" && request.method === "POST") {
         const pessoaAnterior = await moverParaFinal(env.DB);
         const fila = await buscarFila(env.DB);
         return jsonResponse({ pessoaAnterior, fila }, corsHeaders);
       }
 
-      // POST /api/pular -> quem está na frente pula a vez e vai pro final
       if (url.pathname === "/api/pular" && request.method === "POST") {
         const pessoaAnterior = await moverParaFinal(env.DB);
         const fila = await buscarFila(env.DB);

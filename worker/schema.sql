@@ -12,5 +12,4 @@ INSERT INTO membros (nome, ordem) VALUES
   ('Nathanael', 1),
   ('Heitor', 2),
   ('João Vitor', 3),
-  ('Marco Antônio', 4),
   ('Natan', 5);
